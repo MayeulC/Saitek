@@ -37,6 +37,9 @@ sudo ./configurator.py
 REQUIEREMENTS
 -------------
 As it is written in python, you will need python3, and PyQt5.
+Libusb1-python is required too.
+It should work on any machine supporting these three, but the code has been
+written with little endian (x86) in mind, so this could require some adjustments.
 
 TODO
 ----
