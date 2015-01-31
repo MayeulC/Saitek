@@ -121,7 +121,8 @@ class T_communication:
 
     def controlRead(self):
         try:
-            measure=self.handle.controlRead(self.ctrl_request_type, self.ctrl_request, self.ctrl_value, self.ctrl_index, self.ctrl_length)
+            measure=self.handle.controlRead(self.ctrl_request_type, self.ctrl_request, 
+                                            self.ctrl_value, self.ctrl_index, self.ctrl_length)
             return measure
         except:
             self.hasHandle=0
@@ -129,7 +130,8 @@ class T_communication:
 
     def controlWrite(self):
         try:
-            self.handle.controlWrite(self.ctrl_request_type, self.ctrl_request, self.ctrl_value, self.ctrl_index, self.ctrl_length)
+            self.handle.controlWrite(self.ctrl_request_type, self.ctrl_request,
+                                     self.ctrl_value, self.ctrl_index, self.ctrl_length)
         except:
             self.hasHandle=0
 
