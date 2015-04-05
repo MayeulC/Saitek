@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
-from PyQt5.QtWidgets import (QApplication, QWidget, QGridLayout, 
+from PyQt5.QtWidgets import (QApplication, QWidget, QGridLayout,
                              QProgressBar, QSlider, QTabWidget,
                              QHBoxLayout, QVBoxLayout, QSpinBox,
                              QGroupBox, QPushButton, QCheckBox)
@@ -121,7 +121,7 @@ class T_communication:
 
     def controlRead(self):
         try:
-            measure=self.handle.controlRead(self.ctrl_request_type, self.ctrl_request, 
+            measure=self.handle.controlRead(self.ctrl_request_type, self.ctrl_request,
                                             self.ctrl_value, self.ctrl_index, self.ctrl_length)
             return measure
         except:
@@ -204,7 +204,7 @@ class T_dpi(QObject):
 
 
 class T_tab(QWidget):
-    
+
     def __init__(self,identifier,dpi,com):
         super().__init__()
         ratio=2 #The sliders are ratio times bigger than the right hand corner buttons
@@ -300,6 +300,7 @@ class T_window(QWidget):
         self.timer.start(100,self.data)
         self.tabs.currentChanged.connect(self.com.sendMode)
         self.com.getDpi(self.dpi)
+        self.dpi.dataHasBeenSent()
 
 
 def main():
@@ -312,9 +313,9 @@ def main():
     w.move(300, 300)
     w.setWindowTitle('R.A.T.9 Configurator')
     w.show()
-    
+
     sys.exit(app.exec_())
 
 if __name__ == '__main__':
     main()
-    
+
