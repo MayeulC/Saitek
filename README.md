@@ -5,6 +5,9 @@ R.A.T.9 Configurator
 This is a simple utility written in python to allow you managing your Saitek
 R.A.T 9 mouse (by Madcatz) under Linux or any other operating system supported
 by the toolkits. The USB protocol has been completely reverse-engineered.
+Be sure to check out the 
+[Wiki](https://github.com/MayeulC/Saitek/wiki/R.A.T-9-USB-Documentation) 
+for tips, and raw information.
 
 LICENSE
 -------
@@ -13,7 +16,7 @@ a release under another license, ask the author (see below).
 
 AUTHORS
 -------
-Mayeul Cantan <mayeul.cantan "at" gmail.com>
+Mayeul Cantan (mayeul.cantan "at" gmail.com)
 
 NOTES
 -----
