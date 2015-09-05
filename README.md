@@ -12,11 +12,7 @@ for tips, and raw information.
 LICENSE
 -------
 This is free software, distributed under the GPL v.3. If you want to discuss
-a release under another license, ask the author (see below).
-
-AUTHORS
--------
-Mayeul Cantan (mayeul.cantan "at" gmail.com)
+a release under another license, please open an issue on Github
 
 NOTES
 -----
@@ -51,9 +47,22 @@ TODO
 * Comment the code... Well, it doesn't need much, but it needs it.
 * Better error handling (present a message if the mouse is not found, etc...)
 
+CONTRIBUTING
+------------
+Here's how you can help : 
+* Check if it works with your mouse (R.A.T 3 and 5 mice as well)
+* If it doesn't, please open an issue with the lsusb output, and general information about your mouse
+* You can clone the git repository and start hacking with the code. Pull requests are most welcome.
+
 FEATURE LIST
 ------------
 Any feature present in the windows driver should be in. If not, let me know.
 The only exception to this is macro support (together with the precision
 button) : Those features are part of an other module in the windows driver,
 and it is the way it sould be implemented.
+
+The exhaustive list is : 
+* Query and display battery level
+* Change, and display current DPI mode
+* Change per-axis, per-mode DPI
+* Reset default configuration
