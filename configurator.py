@@ -71,7 +71,6 @@ class DeviceComms:
                 self.ctrl_index += 0x1000 * (mode + 1)
                 self.ctrl_index += 0x0100 * (axis + 1)
                 measure = self.controlRead()
-                print(measure[1], mode, axis)
                 dpi.setDpiData(25 * measure[1] + 100, mode, axis)
 
     def getBatteryLevel(self):
