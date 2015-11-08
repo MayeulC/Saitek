@@ -190,7 +190,10 @@ class Data(QWidget):
 class DPI(QObject):
     def __init__(self):
         super().__init__()
-        self.dpi = [[None, None]] * 4
+        self.dpi = [[None, None],
+                    [None, None],
+                    [None, None],
+                    [None,None]]
         self.populateDefaultDpiValues()
         self.oldDpi = copy.deepcopy(self.dpi)
 
