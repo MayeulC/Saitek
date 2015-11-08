@@ -43,6 +43,7 @@ class DeviceComms:
             # List of supported product ids.
             products = [0x0cfa, 0x0cd9]
             self.handle = None
+            self.hasHandle = 0
             for product in products:
                 try:
                     self.handle = self.context.openByVendorIDAndProductID(
@@ -53,9 +54,6 @@ class DeviceComms:
                 if self.handle:
                     self.hasHandle = 1
                     break
-            else:
-                # We didn't find handle.
-                self.hasHandle = 0
 
     def getDpi(self, dpi):
         if not self.hasContext or not self.hasHandle:
