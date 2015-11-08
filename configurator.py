@@ -55,6 +55,12 @@ class DeviceComms:
                     self.hasHandle = 1
                     break
 
+            if not self.hasHandle:
+                print("Could not acquire device handle. Please ensure "
+                    + "that it is correctly plugged in and that you "
+                    + "have the appropriate rights.")
+                exit(-1)
+
     def getDpi(self, dpi):
         if not self.hasContext or not self.hasHandle:
             return
