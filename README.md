@@ -1,10 +1,9 @@
-R.A.T.9 Configurator
-====================
-(Name subject to change)
+ratctl
+======
 
-This is a simple utility written in python to allow you managing your Saitek
-R.A.T 9 mouse (by Madcatz) under Linux or any other operating system supported
-by the toolkits. The USB protocol has been completely reverse-engineered.
+This is a simple utility written in python to allow you managing your R.A.T
+mouse under Linux or any other operating system supported by the toolkits. 
+The USB protocol has been completely reverse-engineered.
 Be sure to check out the 
 [Wiki](https://github.com/MayeulC/Saitek/wiki/R.A.T-9-USB-Documentation) 
 for tips, and raw information.
@@ -30,7 +29,7 @@ USAGE
 -----
 easiest way :
 ```Shell
-sudo ./configurator.py
+sudo ./ratctl.py
 ```
 
 REQUIEREMENTS
@@ -40,12 +39,20 @@ Libusb1-python is required too.
 It should work on any machine supporting these three, but the code has been
 written with little endian (x86) in mind, so this could require some adjustments.
 
+You could experience some difficulties in installing the libusb1 library for python. The 
+preferred method is trough ```pip```. Just keep in mind that the tool is using python3, so 
+you may have to use the ```pip3``` or ```pip3.x``` binary. The command should be something 
+like
+```Shell
+sudo pip install libusb1
+```
 TODO
 ----
-* Support of multiple peripherals (unlikely to happen, but you can never
-  be too sure)
+* Support of multiple peripherals (it is unlikely anyone will ever use this, but you 
+can never be too sure)
 * Comment the code... Well, it doesn't need much, but it needs it.
 * Better error handling (present a message if the mouse is not found, etc...)
+* Support other mices, with their different features
 
 CONTRIBUTING
 ------------
