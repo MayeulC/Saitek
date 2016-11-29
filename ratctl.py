@@ -226,7 +226,6 @@ class Data(QWidget):
         self.pool()
 
     def pool(self):
-        self.com.initiate()
         self.dpiMode = self.com.getDpiMode()
         self.battery = self.com.getBatteryLevel()
         self.displayResults()
