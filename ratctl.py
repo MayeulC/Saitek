@@ -12,6 +12,33 @@ from PyQt5.QtCore import Qt, QBasicTimer, pyqtSignal, QObject
 import usb1
 import copy
 
+# Device list definition. If you want to add a device, this is likely where you will
+# want to start. Check your mouse product and vendor ID with `lsusb` (the output is
+# vid:pid), and add it to the list, using the ones that are present as an example.
+# You can then submit a pull request on GitHub, open an issue or report it in #4.
+
+# Vendor list. Changes are unlikely to happen here. Recent devices are probably
+# MadCatz ones.
+vendorList = {0x06a3: 'Saitek',
+              0x0738: 'Mad Catz'}
+
+# Product list, sorted by PID
+products = [
+# Saitek
+            {'vid': 0x06a3, 'pid': 0x0cc3, 'name': 'Cyborg R.A.T.5'},  # @noobish's mouse (#4)
+            {'vid': 0x06a3, 'pid': 0x0ccb, 'name': 'old Cyborg R.A.T.7'},  # present in the Linux kernel: drivers/hid/hid-ids.h@866
+            {'vid': 0x06a3, 'pid': 0x0ccc, 'name': 'Cyborg R.A.T.3'},  # from Arch wiki
+            {'vid': 0x06a3, 'pid': 0x0cd7, 'name': 'Cyborg R.A.T.9', 'battery': True},  # present in the Linux kernel: drivers/hid/hid-ids.h@867
+            {'vid': 0x06a3, 'pid': 0x0cd9, 'name': 'Cyborg R.A.T.9', 'battery': True},  # @MaikuMori's mouse (pull #1)
+            {'vid': 0x06a3, 'pid': 0x0cfa, 'name': 'Cyborg R.A.T.9', 'battery': True, 'dpi': 5600},  # @MayeulC 's mouse
+# Mad Catz
+            {'vid': 0x0738, 'pid': 0x1705, 'name': 'R.A.T 5'},  # @np's mouse (fork)
+            {'vid': 0x0738, 'pid': 0x1709, 'name': 'R.A.T 9', 'battery': True},  # @improti's mouse (fork)
+            {'vid': 0x0738, 'pid': 0x1718, 'name': 'R.A.T PRO X'}]  # @Angelus's mouse (#8 - not tested)
+
+
+# Code begins here
+
 
 class DeviceComms:
     def __init__(self):
@@ -39,27 +66,46 @@ class DeviceComms:
         except:
             self.hasContext = 0
 
+    def findDevices(self):
+        try:
+            deviceList = self.context.getDeviceList()
+        except:
+            print("Could not enumerate USB devices")
+            exit(-1)
+
+        devicesFound = []
+        for device in deviceList:
+            if device.getVendorID() in vendorList:
+                for p in products:
+                    if p['vid'] == device.getVendorID() and p['pid'] == device.getProductID():
+                        print("Found one device:", p)  # DEBUG!! user-facing debug message. To delete later.
+                        devicesFound.append(p)
+        return devicesFound
+
     def getHandle(self):
-            # List of supported product ids.
-            products = [0x0cfa, 0x0cd9]
-            self.handle = None
-            self.hasHandle = 0
-            for product in products:
-                try:
-                    self.handle = self.context.openByVendorIDAndProductID(
-                        0x06a3, product)
-                except:
-                    pass
+        self.handle = None
+        self.hasHandle = 0
+        devicesFound = self.findDevices()
+        # TODO: nicely ask the user which device he wants to open, and allow change at runtime
+        # if there is more than one device. For now, we just open the first one.
+        idx = 0
+        if not devicesFound:
+            print("No compatible device found. Please retry or file a bug")
+            exit(-1)
+            # TODO: allow to retry, force open a device, and show a list of candidates
+        try:
+            self.handle = self.context.openByVendorIDAndProductID(
+                devicesFound[idx]['vid'], devicesFound[idx]['pid'])
+        except:
+            print("Error during handle acquisition, do you have the right permissions?")
+            exit(-1)
 
-                if self.handle:
-                    self.hasHandle = 1
-                    break
-
-            if not self.hasHandle:
-                print("Could not acquire device handle. Please ensure "
-                    + "that it is correctly plugged in and that you "
-                    + "have the appropriate rights.")
-                exit(-1)
+        if self.handle:
+            self.hasHandle = 1
+            self.currentDevice = devicesFound[idx]
+        else:
+            print("This shouldn't have happened. Did not get a device handle after trying to get one, please file a bug")
+            exit(-1)
 
     def getDpi(self, dpi):
         if not self.hasContext or not self.hasHandle:
@@ -78,6 +124,8 @@ class DeviceComms:
                 dpi.setDpiData(25 * measure[1] + 100, mode, axis)
 
     def getBatteryLevel(self):
+        if not ('battery' in self.currentDevice) or not self.currentDevice['battery']:
+            return 0
         self.ctrl_request_type = 0xc0
         self.ctrl_request = 144
         self.ctrl_value = 0
@@ -196,7 +244,7 @@ class DPI(QObject):
         self.dpi = [[None, None],
                     [None, None],
                     [None, None],
-                    [None,None]]
+                    [None, None]]
         self.populateDefaultDpiValues()
         self.oldDpi = copy.deepcopy(self.dpi)
 
@@ -341,6 +389,7 @@ def main():
     w.show()
 
     sys.exit(app.exec_())
+
 
 if __name__ == '__main__':
     main()
