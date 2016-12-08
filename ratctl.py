@@ -362,7 +362,7 @@ class MainWindow(QWidget):
         self.grid.addWidget(self.tabs)
 
         self.dpi = DPI()
-        self.t = []
+        self.t = []  # table of tabs
         for i in range(0, 4):
             self.t.append(DPIAdjustmentTab(i, self.dpi, self.com))
             self.tabs.addTab(self.t[i], "Mode " + str(i + 1))
@@ -371,9 +371,9 @@ class MainWindow(QWidget):
         for i in range(0, 4):
             self.t[i].sendButton.clicked.connect(self.data.sendDpi)
             self.t[i].resetButton.clicked.connect(self.com.resetDpi)
-        self.timer = QBasicTimer()
+        self.timer = QBasicTimer()  # Timer to periodically update information
         self.timer.start(100, self.data)
-        self.tabs.currentChanged.connect(self.com.sendMode)
+        self.tabs.currentChanged.connect(self.com.sendMode)  # Changes the mode when changing tabs
         self.com.getDpi(self.dpi)
         self.dpi.dataHasBeenSent()
 
