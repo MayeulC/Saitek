@@ -51,6 +51,7 @@ class DeviceComms:
         self.ctrl_value = 0
         self.ctrl_index = 0
         self.ctrl_length = 0
+        self.currentDevice = {}
         self.initiate()
 
     def initiate(self):
@@ -106,6 +107,12 @@ class DeviceComms:
         else:
             print("This shouldn't have happened. Did not get a device handle after trying to get one, please file a bug")
             exit(-1)
+
+    def getCurrentMouseName(self):
+        if 'name' in self.currentDevice:
+            return self.currentDevice['name']
+        else:
+            return 'no mouse detected'
 
     def getDpi(self, dpi):
         if not self.hasContext or not self.hasHandle:
@@ -353,6 +360,7 @@ class MainWindow(QWidget):
         super().__init__()
         self.tabs = QTabWidget()
         self.com = DeviceComms()
+        self.setWindowTitle('ratctl - ' + self.com.getCurrentMouseName())
         self.pbar = QProgressBar()
         self.pbar.setFormat("Battery : %p%")
         self.grid = QGridLayout()
@@ -385,7 +393,6 @@ def main():
 
     w.resize(800, 600)
     w.move(300, 300)
-    w.setWindowTitle('R.A.T.9 Configurator')
     w.show()
 
     sys.exit(app.exec_())
