@@ -27,10 +27,22 @@ great too.
 
 USAGE
 -----
-easiest way :
+The software needs access to your mouse to work properly. There are multiple
+ways to do this.
+
+Easiest (**but insecure**) way :
 ```Shell
 sudo ./ratctl.py
 ```
+Running GUI applications as root is considered dangerous. Thus, the second
+method is preferred:
+copy the `90-ratctl.rules` over to your udev rules directory (usually
+`/etc/udev/rules.d/`, but it might change depending on your distribution).
+
+This file contains rules to make the various R.A.T mice configurable by any
+physically logged-in user. A reboot might be required to apply the changes,
+but shouldn't be necessary. In most cases, `sudo udevadm control --reload`,
+`sudo udevadm trigger`, and replugging your mouse should be enough.
 
 REQUIEREMENTS
 -------------
