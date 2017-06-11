@@ -154,7 +154,7 @@ class DeviceComms:
         self.ctrl_request_type = 0x40
         self.ctrl_request = 145
         self.ctrl_index = 115
-        self.ctrl_length = 0
+        self.ctrl_length = b''
         for mode in range(0, 4):
             for axis in range(0, 2):
                 self.ctrl_value = 0x1000 * (mode + 1)
@@ -174,7 +174,7 @@ class DeviceComms:
         self.ctrl_request_type = 0x40
         self.ctrl_request = 145
         self.ctrl_index = 116
-        self.ctrl_length = 0
+        self.ctrl_length = b''
         self.ctrl_value = 0x1000 * (Mode + 1)
         self.controlWrite()
 
@@ -182,7 +182,7 @@ class DeviceComms:
         self.ctrl_request_type = 0x40
         self.ctrl_request = 145
         self.ctrl_index = 115
-        self.ctrl_length = 0
+        self.ctrl_length = b''
         self.ctrl_value = 0x0000
         # Reset packet.
         self.controlWrite()
